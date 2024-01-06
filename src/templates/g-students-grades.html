@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Gestion / Asignar y calificar </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">SAES 2</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+
+      
+  </header><!-- End Header -->
+
+  
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{{ url_for('home') }}">
+          <i class="bi bi-pen"></i>
+          <span>Asignar y calificar</span>
+        </a>
+      </li><!-- End asignar -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('register_students') }}">
+          <i class="bi bi-person"></i>
+          <span>Registrar</span>
+        </a>
+      </li><!-- End registrar -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('logout') }}">
+          <i class="bi bi-door-open"></i>
+          <span>Salir</span>
+        </a>
+      </li><!-- End registrar -->
+
+
+
+  </aside><!-- End Sidebar-->
+
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Asignación de Materias y Calificaciones</h1>
+   
+    </div><!-- End Page Title -->
+  
+    <section class="section">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Asignación de Materias y Calificaciones</h5>
+            <!-- Formulario de Asignación -->
+            <form>
+              <div class="row mb-3">
+                <label for="inputBoleta" class="col-sm-2 col-form-label">Boleta (ID de Alumno)</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputBoleta" placeholder="Ingrese la boleta del alumno">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputSemestre" class="col-sm-2 col-form-label">Semestre</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputSemestre" placeholder="Ingrese el semestre del alumno">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="selectMaterias" class="col-sm-2 col-form-label">Materias</label>
+                <div class="col-sm-10">
+                  <select class="form-select" id="selectMaterias">
+                    <option selected>Seleccione una materia</option>
+                    <option value="matematicas">Matemáticas</option>
+                    <option value="historia">Historia</option>
+                    <option value="ciencias">Ciencias</option>
+                    <!-- Agregar más opciones de materias según sea necesario -->
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputExcelCalificaciones" class="col-sm-2 col-form-label">Subir Calificaciones (Excel)</label>
+                <div class="col-sm-10">
+                  <input type="file" class="form-control" id="inputExcelCalificaciones">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-12 text-center">
+                  <button type="submit" class="btn btn-primary">Asignar Materia y Calificaciones</button>
+                </div>
+              </div>
+            </form><!-- Fin Formulario de Asignación -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main><!-- End #main -->
+  
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>SAES 2</span></strong>. All Rights Reserved
+    </div>
+    
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
