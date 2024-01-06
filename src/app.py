@@ -58,7 +58,8 @@ def log():
     ***FALTA***:
 
     1. Verificar los campos de forma segura para evitar ataques SQL INJECTION
-    2. OPCIONAL: Casilla recuerdame (COOKIES)
+    2. Verificar que no haya usuarios con el mismo username
+    3. OPCIONAL: Casilla recuerdame (COOKIES)
 
     """
 
@@ -75,6 +76,7 @@ def log():
 
         cursor.execute(sql_alumno, (username,))
         stored_data_alumno = cursor.fetchone()
+        print(stored_data_alumno)
 
         if stored_data_usuario and stored_data_usuario[2] == password:
             # Si es un usuario gestor (en la tabla USUARIOS)
@@ -82,6 +84,7 @@ def log():
             session['username'] = username
             session['nombre'] = stored_data_usuario[0]
             session['correo'] = stored_data_usuario[1]
+            session['rol']= 'gestor'
             return redirect(url_for('home'))
         elif stored_data_alumno and stored_data_alumno[5] == password:
             # Si es un alumno (en la tabla ALUMNOS)
@@ -90,8 +93,13 @@ def log():
             session['nombre'] = stored_data_alumno[0]
             session['apellido_paterno'] = stored_data_alumno[1]
             session['apellido_materno'] = stored_data_alumno[2]
+            session['boleta'] = stored_data_alumno[3]
             session['correo'] = stored_data_alumno[4]
+            session['rol']= 'alumno'
+            
             return redirect(url_for('index'))
+        
+         
         else:
             # Si las credenciales son incorrectas o el usuario no se encuentra en ninguna tabla
             error_msg = 'Credenciales incorrectas. Inténtalo de nuevo.'
@@ -126,10 +134,13 @@ def profile():
         'Nombre': session.get('nombre'),
         'Apellido Paterno': session.get('apellido_paterno'),
         'Apellido Materno': session.get('apellido_materno'),
+        'Boleta':session.get('boleta'),
         'Correo': session.get('correo'),
-        'Contraseña': session.get('contrasena')
+        'Contraseña': session.get('contrasena') 
         
     }
+
+    
     
     return render_template('users-profile.html', alumno=alumno)
 
