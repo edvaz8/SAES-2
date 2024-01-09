@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -39,7 +41,7 @@
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
- 
+
 
   </header><!-- End Header -->
 
@@ -74,6 +76,39 @@
 
   <main id="main" class="main">
 
+
+    <!-- Mensaje error en el registro de alumnos -->
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <ul>
+        {%- for msg in errors %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    {% endwith %}
+
+    <!-- Mensaje correcto en el registro de alumnos -->
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <ul style="list-style-type: none;">
+        {%- for msg in messages %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- --------- End Mensajes -------------- -->
+
     <div class="pagetitle">
       <h1>Gestión de Alumnos</h1>
       <nav>
@@ -84,59 +119,125 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-  
+
     <section class="section">
       <div class="row">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Registrar Alumnos</h5>
+
+
             <!-- Formulario de Alumnos -->
-            <form action="/addAlumno" method="POST">
+            <form action="" method="POST" novalidate enctype='multipart/form-data'>
+              <!-- <form action="/addAlumno" method="POST"> -->
+
+              <!-- Token para poder mandar el formulario -->
+              {{ form.csrf_token() }}
+
               <div class="row mb-3">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nombre" class="form-control" id="inputNombre" placeholder="Ingrese el nombre">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.nombre(class="form-control", placeholder="Ingrese el nombre") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.nombre.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputApellidoPaterno" class="col-sm-2 col-form-label">Apellido Paterno</label>
                 <div class="col-sm-10">
-                  <input type="text" name="aPater" class="form-control" id="inputApellidoPaterno" placeholder="Ingrese el apellido paterno">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.apellido_Paterno(class="form-control", placeholder="Ingrese el apellido paterno") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.apellido_Paterno.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputApellidoMaterno" class="col-sm-2 col-form-label">Apellido Materno</label>
                 <div class="col-sm-10">
-                  <input type="text" name="aMater" class="form-control" id="inputApellidoMaterno" placeholder="Ingrese el apellido materno">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.apellido_Materno(class="form-control", placeholder="Ingrese el apellido materno") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.apellido_Materno.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputBoleta" class="col-sm-2 col-form-label">Boleta</label>
                 <div class="col-sm-10">
-                  <input type="text" name="boleta" class="form-control" id="inputBoleta" placeholder="Ingrese boleta">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.boleta(class="form-control", placeholder="Ingrese la boleta") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.boleta.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
                 <div class="col-sm-10">
-                  <input type="email" name="correo" class="form-control" id="inputEmail" placeholder="Ingrese el correo electrónico">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.correo(class="form-control", placeholder="Ingrese el correo") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.correo.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Contraseña</label>
                 <div class="col-sm-10">
-                  <input type="password" name="contra" class="form-control" id="inputPassword" placeholder="Ingrese la contraseña">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.password(class="form-control", placeholder="Ingrese la contraseña") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.password.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputFotoPerfil" class="col-sm-2 col-form-label">Foto de Perfil</label>
                 <div class="col-sm-10">
-                  <input type="file" name="foto" class="form-control" id="inputFotoPerfil">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.profile(class="form-control") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.profile.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-sm-12 text-center">
-                  <button type="submit" class="btn btn-primary">Guardar Alumno</button>
+
+                  <!-- Colocando boton del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.submit(class="btn btn-primary") }}
+
                 </div>
               </div>
             </form><!-- Fin Formulario de Alumnos -->
@@ -144,19 +245,20 @@
         </div>
       </div>
     </section>
-  
+
   </main><!-- End #main -->
-  
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>SAES 2</span></strong>. All Rights Reserved
     </div>
-    
+
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

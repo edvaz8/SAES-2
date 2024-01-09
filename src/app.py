@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from form import RegisterStudentForm, RegisterGrades
 
+import pandas as pd
+import math
 
 import os
 import conexion as db
@@ -198,6 +200,19 @@ def mostrar_usuarios():
     return render_template('usuarios.html', usuarios=usuarios)
 
 
+@app.route('/calificaciones_debug')
+def mostrar_calificaiones():
+    """
+    **SOLO PARA DEBUG**
+    La ruta /calificaciones muestra los registros de la db de la tabla CALIFICACIONES
+    """
+    cursor = db.database.cursor()
+    cursor.execute("SELECT * FROM CALIFICACIONES")
+    calificaciones = cursor.fetchall()
+
+    return render_template('calificaciones.html', calificaciones=calificaciones)
+
+
 @app.route('/addUsr', methods=['POST'])
 def reg():
     """
@@ -248,15 +263,16 @@ def addAlumno():
 
 @app.route("/register_students", methods=["GET", "POST"])
 def register_students():
-    if request.method == "POST":
+    form = RegisterStudentForm()
+    if form.validate_on_submit():
         # Obtener los datos del formulario
         nombre = request.form["nombre"]
-        apellido_Paterno = request.form["aPater"]
-        apellido_Materno = request.form["aMater"]
+        apellido_Paterno = request.form["apellido_Paterno"]
+        apellido_Materno = request.form["apellido_Materno"]
         boleta = request.form["boleta"]
         correo = request.form["correo"]
-        password = request.form["contra"]
-        foto = request.files["foto"]  # Aquí se obtiene el archivo de imagen
+        password = request.form["password"]
+        foto = request.files["profile"]  # Aquí se obtiene el archivo de imagen
 
         try:
             cursor = db.database.cursor()
@@ -266,7 +282,7 @@ def register_students():
             db.database.commit()
 
             # Guardar el archivo de imagen en tu sistema de archivos CAMBIA LA RUTA O APLICA EL METODO QUE HICISTE
-            foto.save("/home/ed/Materias/Distribuidos/proyectofinal/distribuidos/fotos_perfil" + foto.filename)
+            foto.save("./static/profiles/" + str(foto.filename))
 
             flash("Alumno registrado correctamente", "success")
             return redirect(url_for("register_students"))  # Redirigir a la página principal o a donde sea necesario
@@ -274,10 +290,10 @@ def register_students():
         except Exception as e:
             flash("Ocurrió un error al registrar al alumno: " + str(e), "error")
 
-    return render_template("g-students-register.html")
+    return render_template("g-students-register.html", form=form)
 
 
-@app.route("/grades", methods=["GET", "POST"])
+@app.route("/calificaciones", methods=["GET", "POST"])
 def home():
     form = RegisterGrades()
 
@@ -285,9 +301,36 @@ def home():
         boleta = request.form["boleta"]
         semestre = request.form["semestre"]
         materias = request.form["materias"]
+        calificaciones_Excel = request.files["calificaciones_Excel"]
 
         try:
-            # De manera similar, aquí necesitas ejecutar tu lógica de inserción en la base de datos
+            filePath = "./static/grades/" + str(calificaciones_Excel.filename)
+            # Guardar el archivo de imagen en tu sistema de archivos CAMBIA LA RUTA O APLICA EL METODO QUE HICISTE
+            calificaciones_Excel.save(filePath)
+
+            """ Abrir archivo excel """
+            df = pd.read_excel(filePath, engine='openpyxl')
+            lista = df["Calificaciones"].tolist()
+
+            suma = sum(lista)/3
+
+            """ Redondeando calificacion final """
+            parte_Decimal, parte_Entera = math.modf(suma)
+            if parte_Decimal >= 0.50:
+                parte_Entera += 1
+
+            cursor = db.database.cursor()
+            sql = "INSERT INTO CALIFICACIONES (PRIMER, SEGUNDO, TERCERO, FINAL, BOLETA) VALUES (%s, %s, %s, %s, %s)"
+            data = (lista[0], lista[1], lista[2], parte_Entera, boleta)
+            cursor.execute(sql, data)
+            db.database.commit()
+
+            sql = "INSERT INTO MATERIAS (MATERIA, SEMESTRE) VALUES (%s, %s)"
+            data = (materias, semestre)
+            cursor.execute(sql, data)
+            db.database.commit()
+
+            flash("Alumno registrado correctamente", "success")
             flash("Calificaciones registradas correctamente", "success")
 
         except Exception as e:

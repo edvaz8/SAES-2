@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,10 +44,10 @@
 
 
 
-      
+
   </header><!-- End Header -->
 
-  
+
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
@@ -77,51 +79,118 @@
 
 
   <main id="main" class="main">
+
+    <!-- Mensaje error en el registro de alumnos -->
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <ul>
+        {%- for msg in errors %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Mensaje correcto en el registro de alumnos -->
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <ul style="list-style-type: none;">
+        {%- for msg in messages %}
+        <li>{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+
     <div class="pagetitle">
       <h1>Asignación de Materias y Calificaciones</h1>
-   
+
     </div><!-- End Page Title -->
-  
+
     <section class="section">
       <div class="row">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Asignación de Materias y Calificaciones</h5>
+
             <!-- Formulario de Asignación -->
-            <form>
+            <form action="" method="POST" novalidate enctype='multipart/form-data'>
+
+              <!-- Token para poder mandar el formulario -->
+              {{ form.csrf_token() }}
+
               <div class="row mb-3">
                 <label for="inputBoleta" class="col-sm-2 col-form-label">Boleta (ID de Alumno)</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputBoleta" placeholder="Ingrese la boleta del alumno">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.boleta(class="form-control", placeholder="Ingrese la boleta del alumno") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.boleta.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputSemestre" class="col-sm-2 col-form-label">Semestre</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputSemestre" placeholder="Ingrese el semestre del alumno">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.semestre(class="form-control", placeholder="Ingrese el semestre del alumno") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.semestre.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="selectMaterias" class="col-sm-2 col-form-label">Materias</label>
                 <div class="col-sm-10">
-                  <select class="form-select" id="selectMaterias">
-                    <option selected>Seleccione una materia</option>
-                    <option value="matematicas">Matemáticas</option>
-                    <option value="historia">Historia</option>
-                    <option value="ciencias">Ciencias</option>
-                    <!-- Agregar más opciones de materias según sea necesario -->
-                  </select>
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.materias(class="form-select", placeholder="Materias") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.semestre.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputExcelCalificaciones" class="col-sm-2 col-form-label">Subir Calificaciones (Excel)</label>
+                <label for="inputExcelCalificaciones" class="col-sm-2 col-form-label">Subir Calificaciones
+                  (Excel)</label>
                 <div class="col-sm-10">
-                  <input type="file" class="form-control" id="inputExcelCalificaciones">
+
+                  <!-- Colocando campo del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.calificaciones_Excel(class="form-control") }}
+
+                  <!-- Mostrando errores en caso de tenerlos -->
+                  {% for error in form.calificaciones_Excel.errors %}
+                  <span style="color: red;">{{ error }}</span>
+                  {% endfor %}
+
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-sm-12 text-center">
-                  <button type="submit" class="btn btn-primary">Asignar Materia y Calificaciones</button>
+
+                  <!-- Colocando boton del formulario realizado con flask WTForms con sus clases de bootstrap -->
+                  {{ form.submit(class="btn btn-primary") }}
+
                 </div>
               </div>
             </form><!-- Fin Formulario de Asignación -->
@@ -130,17 +199,18 @@
       </div>
     </section>
   </main><!-- End #main -->
-  
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>SAES 2</span></strong>. All Rights Reserved
     </div>
-    
+
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

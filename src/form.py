@@ -13,7 +13,7 @@ class RegisterStudentForm(FlaskForm):
     boleta = StringField("Boleta", validators=[DataRequired(), Length(max=20)])
     correo = EmailField("Correo", validators=[DataRequired(), Email()])
     password = PasswordField("Contraseña", validators=[DataRequired()])
-    profile = FileField('Profile', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    profile = FileField('Profile', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     submit = SubmitField("Guardar Alumno")
 
 
@@ -23,5 +23,5 @@ class RegisterGrades(FlaskForm):
     boleta = StringField("Boleta", validators=[DataRequired(), Length(max=20)])
     semestre = IntegerField("Semestre", validators=[DataRequired()])
     materias = SelectField("Materias", choices=[('Matematicas', 'Matematicas'), ('Historia', 'Historia'), ('Ciencias', 'Ciencias')])
-    calificaciones_Excel = FileField('Calificaiones', validators=[FileAllowed(['xls', 'xlsx'], 'Excel files only!')])
+    calificaciones_Excel = FileField('Calificaiones', validators=[DataRequired(), FileAllowed(['xls', 'xlsx'], 'Excel files only!')])
     submit = SubmitField("Asignar Materia y Calificaciones")
