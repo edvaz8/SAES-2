@@ -304,6 +304,7 @@ def home():
         calificaciones_Excel = request.files["calificaciones_Excel"]
 
         try:
+            """ Ruta del archivo (CAMBIAR SI NO TE FUNCIONA) """
             filePath = "./static/grades/" + str(calificaciones_Excel.filename)
             # Guardar el archivo de imagen en tu sistema de archivos CAMBIA LA RUTA O APLICA EL METODO QUE HICISTE
             calificaciones_Excel.save(filePath)
