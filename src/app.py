@@ -28,9 +28,50 @@ def login2():
     return render_template('pages-login.html')
 
 
-@app.route('/index')
+@app.route('/index', methods = ['GET','POST'])
 def index():
-    return render_template('users-index.html')
+    cursor = db.database.cursor()
+    cursor.execute("SELECT IDMATERIA,PRIMER,SEGUNDO,TERCERO,FINAL FROM CALIFICACIONES WHERE BOLETA = %s",(session['boleta'],))
+    datos = cursor.fetchall()
+    conta = cursor.rowcount
+
+    cali1 = []
+    cali2 = []
+    cali3 = []
+    cali4 = []
+    cali5 = []
+    cali6 = []
+    cali7 = []
+    cali8 = []
+    total = 0
+    if datos:
+        for d in datos:
+            cursor.execute("SELECT MATERIA,SEMESTRE FROM MATERIAS WHERE ID = %s",(d[0],))
+            materia = cursor.fetchone()
+            if materia:
+                materia = list(materia)
+                di = list(d)
+                di[0] = materia[0]
+                total = total + di[4]
+                if materia[1] == 1:
+                    cali1.append(di)
+                if materia[1] == 2:
+                    cali2.append(di)
+                if materia[1] == 3:
+                    cali3.append(di)
+                if materia[1] == 4:
+                    cali4.append(di)
+                if materia[1] == 5:
+                    cali5.append(di)
+                if materia[1] == 6:
+                    cali6.append(di)
+                if materia[1] == 7:
+                    cali7.append(di)
+                if materia[1] == 8:
+                    cali8.append(di)
+        prom = total/conta
+        return render_template('users-index.html',cali8 = cali8, cali7 = cali7, cali6 = cali6, cali5 = cali5, cali4 = cali4, cali3 = cali3, cali2 = cali2, cali1 = cali1, promedio = prom)
+    return render_template('users-index.html',cali8 = cali8, cali7 = cali7, cali6 = cali6, cali5 = cali5, cali4 = cali4, cali3 = cali3, cali2 = cali2, cali1 = cali1, promedio = 0)
 
 
 
@@ -264,52 +305,62 @@ def addAlumno():
 
 @app.route("/register_students", methods=["GET", "POST"])
 def register_students():
-    if request.method == "POST":
-        # Obtener los datos del formulario
-        nombre = request.form["nombre"]
-        apellido_Paterno = request.form["aPater"]
-        apellido_Materno = request.form["aMater"]
-        boleta = request.form["boleta"]
-        correo = request.form["correo"]
-        password = request.form["contra"]
-        foto = request.files["foto"]  # Aquí se obtiene el archivo de imagen
+    if session['rol'] == 'gestor':
+        if request.method == "POST":
+            # Obtener los datos del formulario
+            nombre = request.form["nombre"]
+            apellido_Paterno = request.form["aPater"]
+            apellido_Materno = request.form["aMater"]
+            boleta = request.form["boleta"]
+            correo = request.form["correo"]
+            password = request.form["contra"]
+            foto = request.files["foto"]  # Aquí se obtiene el archivo de imagen
 
-        try:
-            cursor = db.database.cursor()
-            sql = "INSERT INTO ALUMNOS (NOMBRE, APATERNO, AMATERNO, BOLETA, CORREO, CONTRASENA, FOTO) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            data = (nombre, apellido_Paterno, apellido_Materno, boleta, correo, password, foto.filename)
-            cursor.execute(sql, data)
-            db.database.commit()
+            try:
+                cursor = db.database.cursor()
+                sql = "INSERT INTO ALUMNOS (NOMBRE, APATERNO, AMATERNO, BOLETA, CORREO, CONTRASENA, FOTO) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                data = (nombre, apellido_Paterno, apellido_Materno, boleta, correo, password, foto.filename)
+                cursor.execute(sql, data)
+                db.database.commit()
 
-            # Guardar el archivo de imagen en tu sistema de archivos CAMBIA LA RUTA O APLICA EL METODO QUE HICISTE
-            foto.save("/home/ed/Materias/Distribuidos/proyectofinal/distribuidos/fotos_perfil" + foto.filename)
+                # Guardar el archivo de imagen en tu sistema de archivos CAMBIA LA RUTA O APLICA EL METODO QUE HICISTE
+                foto.save("/home/ed/Materias/Distribuidos/proyectofinal/distribuidos/fotos_perfil" + foto.filename)
 
-            flash("Alumno registrado correctamente", "success")
-            return redirect(url_for("register_students"))  # Redirigir a la página principal o a donde sea necesario
+                flash("Alumno registrado correctamente", "success")
+                return redirect(url_for("register_students"))  # Redirigir a la página principal o a donde sea necesario
 
-        except Exception as e:
-            flash("Ocurrió un error al registrar al alumno: " + str(e), "error")
+            except Exception as e:
+                flash("Ocurrió un error al registrar al alumno: " + str(e), "error")
 
-    return render_template("g-students-register.html")
+        return render_template("g-students-register.html")
+    
+    else:
+        return 'No tienes acceso a esta pantalla'
+
 
 
 @app.route("/grades", methods=["GET", "POST"])
 def home():
-    form = RegisterGrades()
+    if session['rol'] == 'gestor':
+        form = RegisterGrades()
 
-    if form.validate_on_submit():
-        boleta = request.form["boleta"]
-        semestre = request.form["semestre"]
-        materias = request.form["materias"]
+        if form.validate_on_submit():
+            boleta = request.form["boleta"]
+            semestre = request.form["semestre"]
+            materias = request.form["materias"]
 
-        try:
-            # De manera similar, aquí necesitas ejecutar tu lógica de inserción en la base de datos
-            flash("Calificaciones registradas correctamente", "success")
+            try:
+                # De manera similar, aquí necesitas ejecutar tu lógica de inserción en la base de datos
+                flash("Calificaciones registradas correctamente", "success")
 
-        except Exception as e:
-            flash("Ocurrió un error al registrar las calificaciones: " + str(e), "error")
+            except Exception as e:
+                flash("Ocurrió un error al registrar las calificaciones: " + str(e), "error")
 
-    return render_template("g-students-grades.html", form=form)
+        return render_template("g-students-grades.html", form=form)
+    
+    else:
+        return 'No tienes acceso a esta pantalla'
+
 
 
 
