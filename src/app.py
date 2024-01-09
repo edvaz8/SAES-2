@@ -8,12 +8,10 @@ import os
 import conexion as db
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-template_dir = os.path.join(template_dir, 'src' , 'templates')
+template_dir = os.path.join(template_dir, 'src', 'templates')
 
 app = Flask(__name__, static_folder='templates/assets')
 app.secret_key = '1p1qswA@'
-
-
 
 
 # --------- METODOS GENERALES
@@ -22,6 +20,7 @@ app.secret_key = '1p1qswA@'
 @app.route('/')
 def login():
     return render_template('pages-login.html')
+
 
 @app.route('/pages-login.html')
 def login2():
@@ -33,17 +32,13 @@ def index():
     return render_template('users-index.html')
 
 
-
 @app.route('/pages-register.html')
 def registra():
     """
     FALTA
     IMPLEMENTACIÓN DEL REGISTER
-    """
-    
+    """  
     return render_template('pages-register.html')
-
-
 
 
 @app.route('/login', methods=['POST'])
@@ -64,12 +59,12 @@ def log():
 
     username = request.form['username']
     password = request.form['password']
-    
+
     if username and password:
         cursor = db.database.cursor()
         sql_usuario = "SELECT NOMBRE, EMAIL, PASSWORD, USERNAME FROM USUARIOS WHERE USERNAME = %s"
         sql_alumno = "SELECT NOMBRE, APATERNO, AMATERNO, BOLETA, CORREO, CONTRASENA FROM ALUMNOS WHERE BOLETA = %s"
-        
+
         cursor.execute(sql_usuario, (username,))
         stored_data_usuario = cursor.fetchone()
 
@@ -102,7 +97,6 @@ def log():
         return render_template('pages-login.html', error=error_msg)
 
 
-
 @app.route('/logout')
 def logout():
     """
@@ -128,10 +122,10 @@ def profile():
         'Apellido Materno': session.get('apellido_materno'),
         'Correo': session.get('correo'),
         'Contraseña': session.get('contrasena')
-        
     }
-    
+
     return render_template('users-profile.html', alumno=alumno)
+
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
@@ -173,7 +167,6 @@ def change_password():
     return redirect(url_for('login'))  # Redirige al inicio de sesión o a donde sea apropiado
 
 
-
 #  ----------------------- DEBUG
 
 @app.route('/alumnos')
@@ -190,11 +183,12 @@ def mostrar_alumnos():
     print(usuarios)
     return render_template('usuarioss.html', usuarios=usuarios)
 
+
 @app.route('/usuarios')
 def mostrar_usuarios():
     """
     **SOLO PARA DEBUG**
-    La ruta /usuarios muestra los registros de la db de la tabla USUARIOS 
+    La ruta /usuarios muestra los registros de la db de la tabla USUARIOS
     USUARIOS es el nombre de los gestores
     """
     cursor = db.database.cursor()
@@ -203,7 +197,8 @@ def mostrar_usuarios():
 
     return render_template('usuarios.html', usuarios=usuarios)
 
-@app.route('/addUsr',methods=['POST'])
+
+@app.route('/addUsr', methods=['POST'])
 def reg():
     """
     **SOLO PARA DEBUG**
@@ -218,13 +213,13 @@ def reg():
     if nombre and correo and username and contra:
         cursor = db.database.cursor()
         sql = "INSERT INTO USUARIOS (EMAIL,NOMBRE,PASSWORD,USERNAME) VALUES (%s, %s, %s, %s)"
-        data = (correo,nombre,contra,username)
-        cursor.execute(sql,data)
+        data = (correo, nombre, contra, username)
+        cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('login'))
 
 
-@app.route('/addAlumno',methods=['POST'])
+@app.route('/addAlumno', methods=['POST'])
 def addAlumno():
     """
     **SOLO PARA DEBUG**
@@ -244,7 +239,7 @@ def addAlumno():
         cursor = db.database.cursor()
         sql = "INSERT INTO ALUMNOS (NOMBRE,APATERNO,AMATERNO,BOLETA,CORREO,CONTRASENA,FOTO) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         data = (nombre, aPater, aMater, boleta, correo, contra, foto)
-        cursor.execute(sql,data)
+        cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('home'))
 
@@ -301,7 +296,6 @@ def home():
     return render_template("g-students-grades.html", form=form)
 
 
-
 # Funcion para guardar los archivos en la carpeta static
 def upload_File(file, folder_Path):
     app.config["UPLOAD_FOLDER"] = folder_Path
@@ -315,7 +309,6 @@ def upload_File(file, folder_Path):
             )
         )
     )
-
 
 
 if __name__ == '__main__':
