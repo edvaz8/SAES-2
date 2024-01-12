@@ -134,7 +134,7 @@
                 <i class="bi bi-cart"></i>
               </div>
               <div class="ps-3">
-                <h6>9.9</h6>
+                <h6>{{promedio}}</h6>
                 <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
               </div>
@@ -199,27 +199,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali8 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>7mo</h3>
@@ -234,27 +220,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali7 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>6xto</h3>
@@ -269,27 +241,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali6 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>5to</h3>
@@ -304,27 +262,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali5 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>4to</h3>
@@ -339,27 +283,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali4 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>3ero</h3>
@@ -374,62 +304,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
-              </tbody>
-            </table>
-            <h3>3ero</h3>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Materia#</th>
-                  <th scope="col">Primer</th>
-                  <th scope="col">Segundo</th>
-                  <th scope="col">Tercero</th>
-                  <th scope="col">Final</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali3 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>2do</h3>
@@ -444,27 +325,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali2 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             <h3>1ero</h3>
@@ -479,27 +346,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">Matemáticas</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Ciencias</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">Tecnología</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                </tr>
+                {% for row in cali1 %}
+                  <tr>
+                    {% for d in row %}
+                      <td>{{d}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
             

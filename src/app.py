@@ -29,9 +29,50 @@ def login2():
     return render_template('pages-login.html')
 
 
-@app.route('/index')
+@app.route('/index', methods = ['GET','POST'])
 def index():
-    return render_template('users-index.html')
+    cursor = db.database.cursor()
+    cursor.execute("SELECT IDMATERIA,PRIMER,SEGUNDO,TERCERO,FINAL FROM CALIFICACIONES WHERE BOLETA = %s",(session['boleta'],))
+    datos = cursor.fetchall()
+    conta = cursor.rowcount
+
+    cali1 = []
+    cali2 = []
+    cali3 = []
+    cali4 = []
+    cali5 = []
+    cali6 = []
+    cali7 = []
+    cali8 = []
+    total = 0
+    if datos:
+        for d in datos:
+            cursor.execute("SELECT MATERIA,SEMESTRE FROM MATERIAS WHERE ID = %s",(d[0],))
+            materia = cursor.fetchone()
+            if materia:
+                materia = list(materia)
+                di = list(d)
+                di[0] = materia[0]
+                total = total + di[4]
+                if materia[1] == 1:
+                    cali1.append(di)
+                if materia[1] == 2:
+                    cali2.append(di)
+                if materia[1] == 3:
+                    cali3.append(di)
+                if materia[1] == 4:
+                    cali4.append(di)
+                if materia[1] == 5:
+                    cali5.append(di)
+                if materia[1] == 6:
+                    cali6.append(di)
+                if materia[1] == 7:
+                    cali7.append(di)
+                if materia[1] == 8:
+                    cali8.append(di)
+        prom = total/conta
+        return render_template('users-index.html',cali8 = cali8, cali7 = cali7, cali6 = cali6, cali5 = cali5, cali4 = cali4, cali3 = cali3, cali2 = cali2, cali1 = cali1, promedio = prom)
+    return render_template('users-index.html',cali8 = cali8, cali7 = cali7, cali6 = cali6, cali5 = cali5, cali4 = cali4, cali3 = cali3, cali2 = cali2, cali1 = cali1, promedio = 0)
 
 
 @app.route('/pages-register.html')
@@ -55,7 +96,8 @@ def log():
     ***FALTA***:
 
     1. Verificar los campos de forma segura para evitar ataques SQL INJECTION
-    2. OPCIONAL: Casilla recuerdame (COOKIES)
+    2. Verificar que no haya usuarios con el mismo username
+    3. OPCIONAL: Casilla recuerdame (COOKIES)
 
     """
 
@@ -72,6 +114,7 @@ def log():
 
         cursor.execute(sql_alumno, (username,))
         stored_data_alumno = cursor.fetchone()
+        print(stored_data_alumno)
 
         if stored_data_usuario and stored_data_usuario[2] == password:
             # Si es un usuario gestor (en la tabla USUARIOS)
@@ -79,6 +122,7 @@ def log():
             session['username'] = username
             session['nombre'] = stored_data_usuario[0]
             session['correo'] = stored_data_usuario[1]
+            session['rol']= 'gestor'
             return redirect(url_for('home'))
         elif stored_data_alumno and stored_data_alumno[5] == password:
             # Si es un alumno (en la tabla ALUMNOS)
@@ -87,8 +131,13 @@ def log():
             session['nombre'] = stored_data_alumno[0]
             session['apellido_paterno'] = stored_data_alumno[1]
             session['apellido_materno'] = stored_data_alumno[2]
+            session['boleta'] = stored_data_alumno[3]
             session['correo'] = stored_data_alumno[4]
+            session['rol']= 'alumno'
+            
             return redirect(url_for('index'))
+        
+         
         else:
             # Si las credenciales son incorrectas o el usuario no se encuentra en ninguna tabla
             error_msg = 'Credenciales incorrectas. Inténtalo de nuevo.'
@@ -122,6 +171,7 @@ def profile():
         'Nombre': session.get('nombre'),
         'Apellido Paterno': session.get('apellido_paterno'),
         'Apellido Materno': session.get('apellido_materno'),
+        'Boleta':session.get('boleta'),
         'Correo': session.get('correo'),
         'Contraseña': session.get('contrasena')
     }
