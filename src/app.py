@@ -85,7 +85,6 @@ def registra():
 
 @app.route('/login', methods=['POST'])
 def log():
-
     """
     Metodo de inicio de sesión principal
     Ya sea usuario o alumno, se realizan las dos consultas y accedes al panel correspondiente
@@ -103,6 +102,8 @@ def log():
 
     if username and password:
         cursor = db.database.cursor()
+
+        # Utilizamos consultas parametrizadas para evitar SQL injection
         sql_usuario = "SELECT NOMBRE, EMAIL, PASSWORD, USERNAME FROM USUARIOS WHERE USERNAME = %s"
         sql_alumno = "SELECT NOMBRE, APATERNO, AMATERNO, BOLETA, CORREO, CONTRASENA FROM ALUMNOS WHERE BOLETA = %s"
 
@@ -119,7 +120,7 @@ def log():
             session['username'] = username
             session['nombre'] = stored_data_usuario[0]
             session['correo'] = stored_data_usuario[1]
-            session['rol']= 'gestor'
+            session['rol'] = 'gestor'
             return redirect(url_for('home'))
         elif stored_data_alumno and stored_data_alumno[5] == password:
             # Si es un alumno (en la tabla ALUMNOS)
@@ -130,10 +131,10 @@ def log():
             session['apellido_materno'] = stored_data_alumno[2]
             session['boleta'] = stored_data_alumno[3]
             session['correo'] = stored_data_alumno[4]
-            session['rol']= 'alumno'
-            
+            session['rol'] = 'alumno'
+
             return redirect(url_for('index'))
-         
+
         else:
             # Si las credenciales son incorrectas o el usuario no se encuentra en ninguna tabla
             error_msg = 'Credenciales incorrectas. Inténtalo de nuevo.'
