@@ -18,7 +18,6 @@ app.secret_key = '1p1qswA@'
 
 # --------- METODOS GENERALES
 
-
 @app.route('/')
 def login():
     return render_template('pages-login.html')
@@ -92,7 +91,6 @@ def log():
     Ya sea usuario o alumno, se realizan las dos consultas y accedes al panel correspondiente
     Se generan sesiones para cada individuo correspondiente
 
-
     ***FALTA***:
 
     1. Verificar los campos de forma segura para evitar ataques SQL INJECTION
@@ -100,7 +98,6 @@ def log():
     3. OPCIONAL: Casilla recuerdame (COOKIES)
 
     """
-
     username = request.form['username']
     password = request.form['password']
 
@@ -136,7 +133,6 @@ def log():
             session['rol']= 'alumno'
             
             return redirect(url_for('index'))
-        
          
         else:
             # Si las credenciales son incorrectas o el usuario no se encuentra en ninguna tabla
